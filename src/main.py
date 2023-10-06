@@ -1,15 +1,16 @@
 import pygame
 from entities.player import Player
-from physics import Physics
 from settings import SETTINGS
 
-class SparrowTen:
+class SparrowTenGame:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode(SETTINGS.SCREEN)
         self.clock = pygame.time.Clock()
         self.running = True
         self.dt = 0
+        # debug
+        self.debug = True
         
     def run(self):
         player = Player(pygame.Vector2(100, 100))
@@ -18,18 +19,22 @@ class SparrowTen:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
-
+                    
             self.screen.fill(color="white")
-
+            
             player.move(self.dt)
+            # ground.check_on_ground(player)
+            
             player.render(self.screen)
-
+            
             pygame.display.flip()
-
             self.dt = self.clock.tick(60) / 1000
-
+            
+            if self.debug:
+                print(f"FPS: {self.clock.get_fps()}")
+            
         pygame.quit()
 
 if __name__ == "__main__":
-    game = SparrowTen()
+    game = SparrowTenGame()
     game.run()
