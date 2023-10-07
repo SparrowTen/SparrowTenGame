@@ -1,23 +1,25 @@
 {
     "python.pythonPath": "${workspaceFolder}//venv//Scripts//python.exe", // Mac/Linux 需要改為 "${workspaceFolder}\venv\bin\python"
     "python.languageServer": "Pylance",
+    "python.analysis.typeCheckingMode": "basic",
     "python.analysis.autoFormatStrings": true,
+    "pylint.path": ["${workspaceFolder}//venv//Scripts//pylint.exe"], // Mac/Linux 需要改為 "${workspaceFolder}\venv\bin\python"
+    "python.defaultInterpreterPath": "${workspaceFolder}//venv//Scripts//python.exe",
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter",
         "editor.formatOnSave": true,
         "editor.codeActionsOnSave": {
             "source.organizeImports": true
-        },
+        }
     },
-    "black-formatter.args": [
-        "--line-length=80",
-        "--skip-string-normalization"
-    ],
     "isort.args": [
-        "--src=${workspaceFolder}",
+        "--profile=black",
+        "--virtual-env=${workspaceFolder}//venv//Scripts//python.exe",
         "--line-length=100",
     ],
-    "python.analysis.typeCheckingMode": "basic",
-    "pylint.path": ["${workspaceFolder}//venv//Scripts//pylint.exe"], // Mac/Linux 需要改為 "${workspaceFolder}\venv\bin\python"
+    "black-formatter.args": [
+        "--line-length=80",
+        "--skip-string-normalization",
+    ],
     "isort.check": true,
 }
