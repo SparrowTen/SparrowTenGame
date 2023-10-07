@@ -31,17 +31,16 @@ class SparrowTenGame:
 
             player.render(self.screen)
 
-            pygame.display.flip()
-            self.dt = self.clock.tick(60) / 1000
-
             if self.debug:
                 self.screen.blit(
                     pygame.font.SysFont("Arial", 15).render(
-                        f"FPS: {self.clock.get_fps()}", True, (0, 0, 0)
+                        f"FPS: {self.clock.get_fps()}", True, (100, 0, 0)
                     ),
-                    (0, 0),
+                    (10, 10),
                 )
-                # print(f"FPS: {self.clock.get_fps()}")
+
+            pygame.display.flip()
+            self.dt = self.clock.tick(60) / 1000
 
         pygame.quit()
 
