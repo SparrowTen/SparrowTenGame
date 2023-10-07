@@ -1,5 +1,8 @@
-import numpy as np
+import numpy
+import pygame
+
 from entities.sprite import Sprite
+from map.main import game_map
 
 
 class Physics:
@@ -9,12 +12,43 @@ class Physics:
 
     def apply_gravity(self, entity: Sprite, dt):
         entity.vsp += self.gravity * dt
-        entity.pos.y += entity.vsp * dt
-        entity.pos.y = np.clip(entity.pos.y, 100, 500)
+        entity.t_pos.y += entity.vsp * dt
 
     def apply_friction(self, entity: Sprite, dt):
         if entity.hsp > 0:
             entity.hsp -= self.friction * dt
         elif entity.hsp < 0:
             entity.hsp += self.friction * dt
-        entity.pos.x += entity.hsp * dt
+        entity.t_pos.x += entity.hsp * dt
+
+    def check_ground(self, entity: Sprite):
+        entity.rect.centery = int(
+            entity.pos.y
+            + entity.asset.get_height() / 2
+            + (entity.t_pos.y - entity.pos.y)
+        )
+        if pygame.sprite.spritecollideany(entity, game_map):
+            entity.rect.centery = int(
+                entity.pos.y
+                + entity.asset.get_height() / 2
+                - (entity.t_pos.y - entity.pos.y)
+            )
+            entity.vsp = 0
+            entity.jump = True
+        else:
+            entity.pos.y = entity.t_pos.y
+
+        entity.rect.centerx = int(
+            entity.pos.x
+            + entity.asset.get_height() / 2
+            + (entity.t_pos.x - entity.pos.x)
+        )
+        if pygame.sprite.spritecollideany(entity, game_map):
+            entity.rect.centerx = int(
+                entity.pos.x
+                + entity.asset.get_height() / 2
+                - (entity.t_pos.x - entity.pos.x)
+            )
+            entity.hsp = 0
+        else:
+            entity.pos.x = entity.t_pos.x

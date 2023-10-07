@@ -1,5 +1,7 @@
 import pygame
-from entities.player import Player
+
+from entities.player import player
+from map.main import game_map
 from settings import SETTINGS
 
 
@@ -14,29 +16,47 @@ class SparrowTenGame:
         self.debug = True
 
     def run(self):
-        player = Player(
-            start_x=SETTINGS.SCREEN[0] / 2,
-            start_y=SETTINGS.SCREEN[1] / 2,
-        )
-
         while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
 
-            self.screen.fill(color="white")
+            self.screen.fill((255, 255, 255))
 
-            player.move(self.dt)
-            # ground.check_on_ground(player)
+            # update
+            player.update(self.dt)
 
+            # render
+            game_map.render(self.screen)
             player.render(self.screen)
 
+            # debug
             if self.debug:
                 self.screen.blit(
-                    pygame.font.SysFont("Arial", 15).render(
-                        f"FPS: {self.clock.get_fps()}", True, (100, 0, 0)
+                    pygame.font.SysFont('Arial', 15).render(
+                        f'FPS: {self.clock.get_fps()}', True, (100, 0, 0)
                     ),
                     (10, 10),
+                )
+                self.screen.blit(
+                    pygame.font.SysFont('Arial', 15).render(
+                        f'Player rect center: {player.rect.center}',
+                        True,
+                        (100, 0, 0),
+                    ),
+                    (10, 30),
+                )
+                self.screen.blit(
+                    pygame.font.SysFont('Arial', 15).render(
+                        f'Player hsp: {player.hsp}', True, (100, 0, 0)
+                    ),
+                    (10, 70),
+                )
+                self.screen.blit(
+                    pygame.font.SysFont('Arial', 15).render(
+                        f'Player vsp: {player.vsp}', True, (100, 0, 0)
+                    ),
+                    (10, 90),
                 )
 
             pygame.display.flip()
@@ -45,6 +65,6 @@ class SparrowTenGame:
         pygame.quit()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     game = SparrowTenGame()
     game.run()
