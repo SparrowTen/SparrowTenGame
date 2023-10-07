@@ -8,6 +8,8 @@
             "args": [
                 "-m",
                 "black",
+                "--line-length=80",
+                "--skip-string-normalization",
                 "src",
             ],
             "presentation": {
