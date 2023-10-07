@@ -3,7 +3,6 @@
     "python.languageServer": "Pylance",
     "python.analysis.typeCheckingMode": "basic",
     "python.analysis.autoFormatStrings": true,
-    "pylint.path": ["${workspaceFolder}//venv//Scripts//pylint.exe"], // Mac/Linux 需要改為 "${workspaceFolder}\venv\bin\python"
     "python.defaultInterpreterPath": "${workspaceFolder}//venv//Scripts//python.exe",
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter",
@@ -14,7 +13,6 @@
     },
     "isort.args": [
         "--profile=black",
-        "--virtual-env=${workspaceFolder}//venv//Scripts//python.exe",
         "--line-length=100",
     ],
     "black-formatter.args": [
@@ -22,4 +20,13 @@
         "--skip-string-normalization",
     ],
     "isort.check": true,
+    "pylint.path": ["${workspaceFolder}//venv//Scripts//pylint.exe"], // Mac/Linux 需要改為 "${workspaceFolder}\venv\bin\python"
+    "pylint.args": [
+        "--disable=missing-module-docstring",
+        "--disable=missing-function-docstring",
+        "--disable=missing-class-docstring",
+        "--disable=import-error",
+        "--disable=no-member",
+        "--disable=invalid-name",
+    ]
 }
