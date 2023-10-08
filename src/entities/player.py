@@ -15,12 +15,12 @@ class Player(Sprite):
         self.rect = pygame.Rect(
             start_x,
             start_y,
-            self.asset.get_width(),
+            self.asset.get_width() / 2,
             self.asset.get_height(),
         )
         self.rect.center = (
-            int(self.pos.x + self.asset.get_width() / 2),
-            int(self.pos.y + self.asset.get_height() / 2),
+            int(self.pos.x + self.rect.width),
+            int(self.pos.y + self.rect.height / 2),
         )
         self.physics = Physics()
         self.jump = True

@@ -27,3 +27,11 @@ game_map.add(
         start_y=SETTINGS.SCREEN[1] - 128,
     )
 )
+for i in range(128, 256, 64):
+    game_map.add(
+        Block(
+            asset=SETTINGS.WORKDIR + '/assets/block_default.png',
+            start_x=384,
+            start_y=SETTINGS.SCREEN[1] - i,
+        )
+    )
