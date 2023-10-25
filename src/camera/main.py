@@ -1,7 +1,7 @@
 import pygame
 
 from entities.player import player
-from map.main import game_map
+from map.scan_map import game_map
 from settings import SETTINGS
 
 
