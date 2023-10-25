@@ -1,5 +1,6 @@
 import pygame
 
+from camera.main import camera
 from entities.player import player
 from map.main import game_map
 from settings import SETTINGS
@@ -12,8 +13,6 @@ class SparrowTenGame:
         self.clock = pygame.time.Clock()
         self.running = True
         self.dt = 0
-        # debug
-        self.debug = True
 
     def run(self):
         while self.running:
@@ -27,16 +26,26 @@ class SparrowTenGame:
             player.update(self.dt)
 
             # render
-            game_map.render(self.screen)
-            player.render(self.screen)
+            camera.check_player_in_camera(self.dt)
+            camera.render(self.screen)
+            # game_map.render(self.screen)
+            # player.render(self.screen)
 
             # debug
-            if self.debug:
+            if SETTINGS.DEBUG:
                 self.screen.blit(
                     pygame.font.SysFont('Arial', 15).render(
                         f'FPS: {self.clock.get_fps()}', True, (100, 0, 0)
                     ),
                     (10, 10),
+                )
+                self.screen.blit(
+                    pygame.font.SysFont('Arial', 15).render(
+                        f'Camera offset: {camera.pos_offset.x}, {camera.pos_offset.y}',
+                        True,
+                        (100, 0, 0),
+                    ),
+                    (10, 50),
                 )
                 self.screen.blit(
                     pygame.font.SysFont('Arial', 15).render(
