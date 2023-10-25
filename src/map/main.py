@@ -5,10 +5,12 @@ from settings import SETTINGS
 
 
 class Map(pygame.sprite.Group):
-    def render(self, screen):
+    def render(
+        self, screen, pos_offset: pygame.Vector2() = pygame.Vector2(0, 0)
+    ):
         for block in self.sprites():
             block: Block
-            block.render(screen)
+            block.render(screen, pos_offset)
 
 
 game_map = Map()

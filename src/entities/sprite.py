@@ -1,20 +1,13 @@
 import pygame
 
+from settings import SETTINGS
+
 
 class Sprite(pygame.sprite.Sprite):
     def __init__(self, asset: str, start_x: int, start_y: int):
-        """_summary_
-
-        Args:
-            asset (_type_): 實體的素材檔案路徑
-
-            start_x (_type_): 起始位置的 x 座標
-
-            start_y (_type_): 起始位置的 y 座標
-        """
-
         super().__init__()
         self.pos = pygame.Vector2(start_x, start_y)
+        self.r_pos = pygame.Vector2(start_x, start_y)
         self.t_pos = pygame.Vector2(start_x, start_y)
 
         self.asset = pygame.image.load(asset)
@@ -32,6 +25,14 @@ class Sprite(pygame.sprite.Sprite):
 
         self.jump = True
 
-    def render(self, screen: pygame.Surface):
-        pygame.draw.rect(screen, (255, 0, 0), self.rect)
-        screen.blit(self.asset, self.pos)
+    def render(
+        self,
+        screen: pygame.Surface,
+        pos_offset: pygame.Vector2() = pygame.Vector2(0, 0),
+    ):
+        rect_offset = self.rect.copy()
+        rect_offset.center = self.rect.center - pos_offset
+        self.r_pos = self.pos - pos_offset
+        if SETTINGS.DEBUG:
+            pygame.draw.rect(screen, (255, 0, 0), rect_offset)
+        screen.blit(self.asset, self.r_pos)
