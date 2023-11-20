@@ -2,7 +2,7 @@ import pygame
 
 from camera.main import camera
 from entities.player import player
-from map.main import game_map
+from map.scan_bmp_map import game_map
 from settings import SETTINGS
 
 
