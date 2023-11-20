@@ -4,6 +4,7 @@
         {
             "name": "main",
             "type": "python",
+            "python": "${workspaceFolder}/venv/Scripts/python.exe",
             "request": "launch",
             "program": "${workspaceFolder}/src/main.py",
             "console": "integratedTerminal",
