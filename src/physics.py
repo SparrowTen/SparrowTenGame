@@ -1,8 +1,6 @@
 import pygame
 
 from entities.sprite import Sprite
-
-# from map.main import game_map
 from map.scan_bmp_map import game_map
 
 
