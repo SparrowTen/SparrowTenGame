@@ -1,7 +1,7 @@
 import pygame
 
 from entities.sprite import Sprite
-from map.main import game_map
+from map.scan_bmp_map import game_map
 
 
 class Physics:
@@ -22,9 +22,7 @@ class Physics:
 
     def check_ground(self, entity: Sprite):
         entity.rect.centery = int(
-            entity.pos.y
-            + entity.rect.height / 2
-            + (entity.t_pos.y - entity.pos.y)
+            entity.pos.y + entity.rect.height / 2 + (entity.t_pos.y - entity.pos.y)
         )
         if pygame.sprite.spritecollideany(entity, game_map):
             entity.rect.centery = int(entity.pos.y + entity.rect.height / 2)
