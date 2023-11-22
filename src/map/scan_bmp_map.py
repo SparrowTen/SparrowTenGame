@@ -44,4 +44,4 @@ for bmp in map_list:
                 map_y.append(0)
         map.append(map_y)
     all_maps.append(map)
-    start_pos += 1920
+    start_pos += 2048
