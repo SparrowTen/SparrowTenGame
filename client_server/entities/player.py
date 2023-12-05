@@ -1,22 +1,20 @@
-import pygame
+import random
 
+import pygame
 from entities.sprite import Sprite
 from physics import Physics
 from settings import SETTINGS
 
 
-class Player(Sprite):
+class Player(pygame.sprite.Sprite):
     def __init__(self, start_x, start_y):
-        super().__init__(
-            asset=f'{SETTINGS.WORKDIR}/assets/player_default.png',
-            start_x=start_x,
-            start_y=start_y,
-        )
+        super().__init__()
+        self.id = 0
+        self.pos = pygame.Vector2(start_x, start_y)
+        self.t_pos = pygame.Vector2(start_x, start_y)
+        self.asset = pygame.image.load(f'{SETTINGS.WORKDIR}/assets/player_default.png')
         self.rect = pygame.Rect(
-            start_x,
-            start_y,
-            self.asset.get_width() / 2,
-            self.asset.get_height(),
+            start_x, start_y, self.asset.get_width() / 2, self.asset.get_height()
         )
         self.rect.center = (
             int(self.pos.x + self.rect.width),
@@ -27,6 +25,8 @@ class Player(Sprite):
 
         self.hsp: float = 0
         self.vsp: float = 0
+
+        self.key_pressed = []
 
     def move(self, dt):
         keys = pygame.key.get_pressed()
@@ -48,8 +48,23 @@ class Player(Sprite):
         self.physics.apply_friction(self, dt)
         self.physics.check_ground(self)
 
+    def render(self, screen: pygame.Surface, pos_offset: pygame.Vector2() = pygame.Vector2(0, 0)):
+        rect_offset = self.rect.copy()
+        rect_offset.center = self.rect.center - pos_offset
+        self.r_pos = self.pos - pos_offset
+        screen.blit(self.asset, self.r_pos)
 
-player = Player(
-    start_x=SETTINGS.SCREEN[0] / 2,
-    start_y=SETTINGS.SCREEN[1] / 2,
-)
+    def export_player_data(self):
+        return {
+            'id': self.id,
+            'pos': self.pos,
+            't_pos': self.t_pos,
+            'rect': self.rect,
+            'hsp': self.hsp,
+            'vsp': self.vsp,
+            'jump': self.jump,
+            'key_pressed': self.key_pressed,
+        }
+
+
+player = Player(start_x=SETTINGS.SCREEN[0] / 2, start_y=SETTINGS.SCREEN[1] / 2)

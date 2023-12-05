@@ -7,7 +7,6 @@ class Sprite(pygame.sprite.Sprite):
     def __init__(self, asset: str, start_x: int, start_y: int):
         super().__init__()
         self.pos = pygame.Vector2(start_x, start_y)
-        self.r_pos = pygame.Vector2(start_x, start_y)
         self.t_pos = pygame.Vector2(start_x, start_y)
 
         self.asset = pygame.image.load(asset)

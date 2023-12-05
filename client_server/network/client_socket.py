@@ -1,9 +1,10 @@
 import socket
+import threading
+import time
 
-import pygame
-from common.players import Players
+from entities.player import player
+from settings import SETTINGS
 
-from ..settings import SETTINGS
 from .utils import packet_deserializer, packet_serializer
 
 
@@ -11,6 +12,7 @@ class ClientSocket:
     def __init__(self):
         self.buffer_size = SETTINGS.BUFFER_SIZE
         self.server_addr = (SETTINGS.SERVER_IP, SETTINGS.SERVER_PORT)
+        self.t_update_players = threading.Thread(target=self.update_player_on_server)
 
     def create_socket(self):
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -18,14 +20,6 @@ class ClientSocket:
     def connect_to_server(self):
         self.client.connect(self.server_addr)
         self.client.setblocking(False)
-
-    def collect_key_pressed(self):
-        data = {'key_pressed': []}
-        keys = pygame.key.get_pressed()
-        for key, value in enumerate(keys):
-            if value:
-                data['key_pressed'].append(key)
-        return data
 
     def send_to_server(self, data):
         packet = packet_serializer(data)
@@ -39,14 +33,11 @@ class ClientSocket:
         except Exception as e:
             return data
 
-    def bk_update_players(self):
+    def update_player_on_server(self):
         while True:
-            key_pressed = self.collect_key_pressed()
-            if key_pressed:
-                self.send_to_server(key_pressed)
-            data_from_server = self.get_new_data()
-            if data_from_server:
-                print(data_from_server)
+            player_data = player.export_player_data()
+            self.send_to_server(player_data)
+            time.sleep(1)
 
     def close(self):
         self.client.close()

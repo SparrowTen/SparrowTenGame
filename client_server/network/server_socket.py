@@ -1,7 +1,8 @@
 import select
 import socket
 
-from ..settings import SETTINGS
+from settings import SETTINGS
+
 from .utils import packet_deserializer, packet_serializer
 
 
