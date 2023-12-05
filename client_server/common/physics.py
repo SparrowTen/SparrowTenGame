@@ -1,45 +1,47 @@
 import pygame
-
+from common.global_variable import GV
 from entities.sprite import Sprite
-
-# from map.main import game_map
-from map.scan_map import game_map
+from map.scan_map import game_map, lobby_map
 
 
-class Physics:
-    def __init__(self, gravity=9.8, friction=5.0):
-        self.gravity = gravity * 50
-        self.friction = friction * 50
+def apply_gravity(entity: Sprite):
+    entity.vsp += entity.gravity * GV.TICK
+    entity.t_pos.y += entity.vsp * GV.TICK
+    return entity
 
-    def apply_gravity(self, entity: Sprite, dt):
-        entity.vsp += self.gravity * dt
-        entity.t_pos.y += entity.vsp * dt
 
-    def apply_friction(self, entity: Sprite, dt):
-        if entity.hsp > 0:
-            entity.hsp -= self.friction * dt
-        elif entity.hsp < 0:
-            entity.hsp += self.friction * dt
-        entity.t_pos.x += entity.hsp * dt
+def apply_friction(entity: Sprite):
+    if entity.hsp > 0:
+        entity.hsp -= entity.friction * GV.TICK
+    elif entity.hsp < 0:
+        entity.hsp += entity.friction * GV.TICK
+    entity.t_pos.x += entity.hsp * GV.TICK
+    return entity
 
-    def check_ground(self, entity: Sprite):
-        entity.rect.centery = int(
-            entity.pos.y + entity.rect.height / 2 + (entity.t_pos.y - entity.pos.y)
-        )
-        if pygame.sprite.spritecollideany(entity, game_map):
-            entity.rect.centery = int(entity.pos.y + entity.rect.height / 2)
-            entity.vsp = 0
-            entity.jump = True
-            entity.t_pos.y = entity.pos.y
-        else:
-            entity.pos.y = entity.t_pos.y
 
-        entity.rect.centerx = int(
-            entity.pos.x + entity.rect.width + (entity.t_pos.x - entity.pos.x)
-        )
-        if pygame.sprite.spritecollideany(entity, game_map):
-            entity.rect.centerx = int(entity.pos.x + entity.rect.width)
-            entity.hsp = 0
-            entity.t_pos.x = entity.pos.x
-        else:
-            entity.pos.x = entity.t_pos.x
+def check_ground(player):
+    map = None
+    if GV.STATE == 'lobby':
+        map = lobby_map
+    elif GV.STATE == 'game':
+        map = game_map
+
+    player.rect.centery = int(
+        player.pos.y + player.rect.height / 2 + (player.t_pos.y - player.pos.y)
+    )
+    if pygame.sprite.spritecollideany(player, map):
+        player.rect.centery = int(player.pos.y + player.rect.height / 2)
+        player.vsp = 0
+        player.jump = True
+        player.t_pos.y = player.pos.y
+    else:
+        player.pos.y = player.t_pos.y
+
+    player.rect.centerx = int(player.pos.x + player.rect.width + (player.t_pos.x - player.pos.x))
+    if pygame.sprite.spritecollideany(player, map):
+        player.rect.centerx = int(player.pos.x + player.rect.width)
+        player.hsp = 0
+        player.t_pos.x = player.pos.x
+    else:
+        player.pos.x = player.t_pos.x
+    return player

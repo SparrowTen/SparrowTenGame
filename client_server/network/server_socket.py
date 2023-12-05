@@ -1,6 +1,7 @@
 import select
 import socket
 
+from common.players import players
 from settings import SETTINGS
 
 from .utils import packet_deserializer, packet_serializer
@@ -25,26 +26,30 @@ class ServerSocket:
             self.srv_list.append(server)
             print('[server]: 監聽在 ' + str(port))
 
+    def send_to_client(self, client, data):
+        packet = packet_serializer(data)
+        client.send(packet)
+
     def listen(self):
-        while True:
-            readable, writable, exceptional = select.select(self.inputs, self.outputs, self.inputs)
-            s: socket.socket
-            for s in readable:
-                if s in self.srv_list:
-                    connection, (rip, rport) = s.accept()
-                    connection.setblocking(False)
-                    self.inputs.append(connection)
-                    laddr = connection.getsockname()
-                    print(f'[server]: 接受來自 ({str(rip)}, {rport}) 的連線')
-                else:
-                    try:
-                        raw_data = s.recv(self.buffer_size)
-                        if raw_data:
-                            raddr = s.getpeername()
-                            laddr = s.getsockname()
-                            uppack_data = packet_deserializer(raw_data)
-                            print(
-                                f'[server]: 在 {str(laddr)} 收到來自 ({str(raddr[0])}, {raddr[1]}) 的資料 \n {uppack_data}'
-                            )
-                    except Exception as e:
-                        print(e)
+        readable, writable, exceptional = select.select(self.inputs, self.outputs, self.inputs)
+        s: socket.socket
+        for s in readable:
+            if s in self.srv_list:
+                connection, (rip, rport) = s.accept()
+                connection.setblocking(False)
+                self.inputs.append(connection)
+                players.add_player(rport)
+            else:
+                try:
+                    raw_data = s.recv(self.buffer_size)
+                    if raw_data:
+                        player_id = s.getpeername()[1]  # 玩家的 port 當作 id
+                        player_data = dict(packet_deserializer(raw_data))
+                        if player_data['id'] == 0:
+                            player_data['id'] = player_id
+                        players.update_player(player_id, player_data)
+                        players.calculate_player_data()
+                        players_data = players.pack_player_data()
+                        self.send_to_client(s, players_data)
+                except Exception as e:
+                    print(e)

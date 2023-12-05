@@ -1,5 +1,5 @@
 import pygame
-from common.players import players
+from common.global_variable import GV
 from entities.player import player
 from network.client_socket import ClientSocket
 
@@ -17,7 +17,6 @@ class SparrowTenGame:
         self.events = pygame.event.get()
         pygame.display.set_caption('Client')
         self.send_packet_to_server = True
-        self.state = 'lobby'
 
     def update_events(self):
         self.events = pygame.event.get()
@@ -33,7 +32,7 @@ class SparrowTenGame:
         return key_pressed
 
     def state_runnning(self):
-        if self.state == 'lobby':
+        if GV.STATE == 'lobby':
             self.lobby()
 
     def lobby(self):
@@ -49,7 +48,7 @@ class SparrowTenGame:
 if __name__ == '__main__':
     game = SparrowTenGame()
     game.game_init()
-    game.client.t_update_players.start()
+    game.client.t_update_player_and_get_data.start()
     while True:
         game.state_runnning()
         game.clock.tick(60)
