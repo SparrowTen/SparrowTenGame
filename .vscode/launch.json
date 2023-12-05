@@ -7,8 +7,27 @@
             "python": "${workspaceFolder}/venv/Scripts/python.exe",
             "request": "launch",
             "program": "${workspaceFolder}/src/main.py",
-            "console": "integratedTerminal",
-            "justMyCode": true
+        },
+        {
+            "name": "client",
+            "type": "python",
+            "python": "${workspaceFolder}/venv/Scripts/python.exe",
+            "request": "launch",
+            "program": "${workspaceFolder}/client_server/client.py",
+        },
+        {
+            "name": "server",
+            "type": "python",
+            "python": "${workspaceFolder}/venv/Scripts/python.exe",
+            "request": "launch",
+            "program": "${workspaceFolder}/client_server/server.py",
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Test Client Server",
+            "configurations": ["client", "server"],
+            "stopAll": true
         }
     ]
 }
