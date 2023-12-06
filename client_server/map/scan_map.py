@@ -38,14 +38,19 @@ class Map(pygame.sprite.Group):
                 )
             )
 
+    def change_map(self, map_type):
+        self.empty()
+        if map_type == 'lobby':
+            self.generate_game_map()
+            # self.generate_lobby_map()
+        elif map_type == 'game':
+            self.generate_game_map()
+
     def render(self, screen, pos_offset: pygame.Vector2() = pygame.Vector2(0, 0)):
         for block in self.sprites():
             block: Block
             block.render(screen, pos_offset)
 
 
-lobby_map = Map()
-lobby_map.generate_lobby_map()
-
-game_map = Map()
-game_map.generate_game_map()
+map = Map()
+map.change_map('lobby')

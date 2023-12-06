@@ -1,6 +1,8 @@
 import pygame
 from common.global_variable import GV
+from common.players import players
 from network.server_socket import ServerSocket
+from settings import SETTINGS
 
 
 class SparrowTenServer:
@@ -13,17 +15,19 @@ class SparrowTenServer:
     def game_server_init(self):
         pygame.init()
         self.clock = pygame.time.Clock()
-        self.dt = 0
 
     def run(self):
-        while True:
-            self.server.listen()
-            self.dt = self.clock.tick(60) / 1000
-            GV.set_tick(self.dt)
-            print(GV.TICK)
+        self.server.listen()
+        GV.TICK = self.clock.tick(60) / 1000
+
+    def debug_info(self):
+        if SETTINGS.DEBUG:
+            print(f'TICK: {GV.TICK}')
 
 
 if __name__ == '__main__':
     server = SparrowTenServer()
     server.game_server_init()
-    server.run()
+    while True:
+        server.run()
+        # server.debug_info()

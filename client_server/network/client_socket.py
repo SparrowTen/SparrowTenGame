@@ -38,11 +38,9 @@ class ClientSocket:
         while True:
             player_data = player.export_player_data()
             self.send_to_server(player_data)
-            # print(player_data)
             new_data = self.get_new_data()
             if new_data:
-                print(new_data)
-            time.sleep(1)
+                player.import_player_data(new_data[player.id])
 
     def close(self):
         self.client.close()

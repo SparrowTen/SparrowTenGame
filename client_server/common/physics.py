@@ -1,7 +1,7 @@
 import pygame
 from common.global_variable import GV
 from entities.sprite import Sprite
-from map.scan_map import game_map, lobby_map
+from map.scan_map import map
 
 
 def apply_gravity(entity: Sprite):
@@ -20,12 +20,6 @@ def apply_friction(entity: Sprite):
 
 
 def check_ground(player):
-    map = None
-    if GV.STATE == 'lobby':
-        map = lobby_map
-    elif GV.STATE == 'game':
-        map = game_map
-
     player.rect.centery = int(
         player.pos.y + player.rect.height / 2 + (player.t_pos.y - player.pos.y)
     )

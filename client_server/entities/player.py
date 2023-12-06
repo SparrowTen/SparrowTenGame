@@ -1,3 +1,5 @@
+import threading
+
 import pygame
 from common.global_variable import GV
 from common.physics import apply_friction, apply_gravity, check_ground
@@ -34,6 +36,8 @@ class Player(Sprite):
 
         self.key_pressed = []
 
+        self.lock = threading.Lock()
+
     def move(self):
         for key in self.key_pressed:
             if key == pygame.K_SPACE:
@@ -44,15 +48,14 @@ class Player(Sprite):
                 self.hsp = -100
             if key == pygame.K_d:
                 self.hsp = 100
-
         self.t_pos.y += self.vsp * GV.TICK
         self.t_pos.x += self.hsp * GV.TICK
 
     def update(self):
         self.move()
-        self = apply_gravity(self)
-        self = apply_friction(self)
-        self = check_ground(self)
+        apply_gravity(self)
+        apply_friction(self)
+        check_ground(self)
 
     def render(self, screen: pygame.Surface, pos_offset: pygame.Vector2() = pygame.Vector2(0, 0)):
         rect_offset = self.rect.copy()
@@ -74,16 +77,26 @@ class Player(Sprite):
             'key_pressed': self.key_pressed,
         }
 
-    def import_play_data(self, player_data):
-        self.id = player_data['id']
-        self.pos = player_data['pos']
-        self.t_pos = player_data['t_pos']
-        self.rect = player_data['rect']
-        self.hsp = player_data['hsp']
-        self.vsp = player_data['vsp']
-        self.jump = player_data['jump']
-        self.gravity = player_data['gravity']
-        self.friction = player_data['friction']
+    def import_player_data(self, player_data):
+        with self.lock:
+            self.lock.acquire()
+            self.id = player_data['id']
+            self.pos = player_data['pos']
+            self.t_pos = player_data['t_pos']
+            self.rect = player_data['rect']
+            self.hsp = player_data['hsp']
+            self.vsp = player_data['vsp']
+            self.jump = player_data['jump']
+            self.gravity = player_data['gravity']
+            self.friction = player_data['friction']
+            self.key_pressed = player_data['key_pressed']
+            self.lock.release()
+
+    def set_key_pressed(self, key_pressed):
+        with self.lock:
+            self.lock.acquire()
+            self.key_pressed = key_pressed
+            self.lock.release()
 
 
 player = Player(start_x=SETTINGS.SCREEN[0] / 2, start_y=SETTINGS.SCREEN[1] / 2)

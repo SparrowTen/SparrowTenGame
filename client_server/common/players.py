@@ -8,13 +8,11 @@ class Players:
     def add_player(self, id):
         player = Player(0, 0)
         self.players[id] = player
-        print(f'[server]: 新增玩家 {id}')
 
     def update_player(self, id, player_data):
         player = self.players[id]
         player: Player
-        player.import_play_data(player_data)
-        print(f'[server]: 更新玩家資料 {id}')
+        player.import_player_data(player_data)
 
     def calculate_player_data(self):
         for id in self.players:
