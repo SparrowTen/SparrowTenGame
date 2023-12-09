@@ -14,6 +14,7 @@ class Player(Sprite):
             start_x=start_x,
             start_y=start_y,
         )
+
         self.id = 0
         # 鳥的圖片大小為 64 x 64，但實際為 32 x 64
         self.rect = pygame.Rect(
@@ -57,6 +58,14 @@ class Player(Sprite):
         apply_friction(self)
         check_ground(self)
 
+    def update_player_asset(self):
+        self.asset = pygame.image.load(GV.SKIN)
+        self.rect = self.asset.get_rect()
+        self.rect.center = (
+            int(self.pos.x + self.rect.width / 2),
+            int(self.pos.y + self.rect.height / 2),
+        )
+
     def render(self, screen: pygame.Surface, pos_offset: pygame.Vector2() = pygame.Vector2(0, 0)):
         rect_offset = self.rect.copy()
         rect_offset.center = self.rect.center - pos_offset
@@ -64,22 +73,21 @@ class Player(Sprite):
         screen.blit(self.asset, self.r_pos)
 
     def export_player_data(self):
-        return {
-            'id': self.id,
-            'pos': self.pos,
-            't_pos': self.t_pos,
-            'rect': self.rect,
-            'hsp': self.hsp,
-            'vsp': self.vsp,
-            'jump': self.jump,
-            'gravity': self.gravity,
-            'friction': self.friction,
-            'key_pressed': self.key_pressed,
-        }
+        with self.lock:
+            return {
+                'id': self.id,
+                'pos': self.pos,
+                't_pos': self.t_pos,
+                'rect': self.rect,
+                'hsp': self.hsp,
+                'vsp': self.vsp,
+                'jump': self.jump,
+                'gravity': self.gravity,
+                'friction': self.friction,
+            }
 
     def import_player_data(self, player_data):
         with self.lock:
-            self.lock.acquire()
             self.id = player_data['id']
             self.pos = player_data['pos']
             self.t_pos = player_data['t_pos']
@@ -89,14 +97,14 @@ class Player(Sprite):
             self.jump = player_data['jump']
             self.gravity = player_data['gravity']
             self.friction = player_data['friction']
-            self.key_pressed = player_data['key_pressed']
-            self.lock.release()
 
     def set_key_pressed(self, key_pressed):
         with self.lock:
-            self.lock.acquire()
             self.key_pressed = key_pressed
-            self.lock.release()
+
+    def get_key_pressed(self):
+        with self.lock:
+            return self.key_pressed
 
 
 player = Player(start_x=SETTINGS.SCREEN[0] / 2, start_y=SETTINGS.SCREEN[1] / 2)

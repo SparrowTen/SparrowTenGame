@@ -39,6 +39,7 @@ class ServerSocket:
                 connection.setblocking(False)
                 self.inputs.append(connection)
                 players.add_player(rport)
+                print('[server]: ' + str(rport) + ' 已連線')
             else:
                 try:
                     raw_data = s.recv(self.buffer_size)
@@ -47,6 +48,7 @@ class ServerSocket:
                         player_data = dict(packet_deserializer(raw_data))
                         if player_data['id'] == 0:
                             player_data['id'] = player_id
+                        print('[server]: ' + str(player_id) + ' 傳送了 ' + str(player_data))
                         players.update_player(player_id, player_data)
                         players.calculate_player_data()
                         players_data = players.pack_player_data()

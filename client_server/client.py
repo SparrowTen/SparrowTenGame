@@ -1,3 +1,5 @@
+import sys
+
 import pygame
 from common.camera import camera
 from common.global_variable import GV
@@ -7,17 +9,18 @@ from settings import SETTINGS
 
 
 class SparrowTenGame:
-    def __init__(self):
+    def __init__(self, player_name):
         self.client = ClientSocket()
         self.client.create_socket()
         self.client.connect_to_server()
+        self.player_name = player_name
 
     def game_init(self):
         pygame.init()
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode(SETTINGS.SCREEN)
         self.events = pygame.event.get()
-        pygame.display.set_caption('Client')
+        pygame.display.set_caption(f'player {self.player_name}')
         self.send_packet_to_server = True
 
     def update_events(self):
@@ -25,7 +28,7 @@ class SparrowTenGame:
         player.set_key_pressed(self.collect_key_pressed())
 
     def collect_key_pressed(self):
-        key_pressed = player.key_pressed
+        key_pressed = player.get_key_pressed()
         for event in self.events:
             if event.type == pygame.KEYDOWN:
                 key_pressed.append(event.key)
@@ -95,7 +98,7 @@ class SparrowTenGame:
 
 if __name__ == '__main__':
     game = SparrowTenGame()
-    game.game_init()
+    game.game_init(sys.argv[1])
     game.client.t_update_player_and_get_data.start()
     player.id = game.client.client.getsockname()[1]
     while True:

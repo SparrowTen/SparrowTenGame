@@ -37,6 +37,7 @@ class ClientSocket:
     def update_player_and_get_data(self):
         while True:
             player_data = player.export_player_data()
+            player_data['key_pressed'] = player.get_key_pressed()
             self.send_to_server(player_data)
             new_data = self.get_new_data()
             if new_data:

@@ -13,6 +13,7 @@ class Players:
         player = self.players[id]
         player: Player
         player.import_player_data(player_data)
+        player.set_key_pressed(player_data['key_pressed'])
 
     def calculate_player_data(self):
         for id in self.players:
