@@ -2,6 +2,7 @@ import socket
 import threading
 import time
 
+from common.players import players
 from entities.player import player
 from settings import SETTINGS
 
@@ -41,7 +42,10 @@ class ClientSocket:
             self.send_to_server(player_data)
             new_data = self.get_new_data()
             if new_data:
-                player.import_player_data(new_data[player.id])
+                new_data: dict
+                player.import_player_data(new_data.get(player.id))
+                new_data.pop(player.id)
+                players.client_import_other_players_data(new_data)
 
     def close(self):
         self.client.close()

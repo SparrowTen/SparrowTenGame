@@ -10,7 +10,7 @@ from settings import SETTINGS
 class Player(Sprite):
     def __init__(self, start_x, start_y):
         super().__init__(
-            asset=f'{SETTINGS.WORKDIR}/assets/player_default.png',
+            asset=f'{SETTINGS.WORKDIR}/assets/player_0.png',
             start_x=start_x,
             start_y=start_y,
         )
@@ -58,13 +58,9 @@ class Player(Sprite):
         apply_friction(self)
         check_ground(self)
 
-    def update_player_asset(self):
-        self.asset = pygame.image.load(GV.SKIN)
-        self.rect = self.asset.get_rect()
-        self.rect.center = (
-            int(self.pos.x + self.rect.width / 2),
-            int(self.pos.y + self.rect.height / 2),
-        )
+    def update_player_skin(self, skin_id):
+        self.skin_id = skin_id
+        self.asset = pygame.image.load(f'{SETTINGS.WORKDIR}/assets/player_{skin_id}.png')
 
     def render(self, screen: pygame.Surface, pos_offset: pygame.Vector2() = pygame.Vector2(0, 0)):
         rect_offset = self.rect.copy()
@@ -84,6 +80,7 @@ class Player(Sprite):
                 'jump': self.jump,
                 'gravity': self.gravity,
                 'friction': self.friction,
+                'skin_id': self.skin_id,
             }
 
     def import_player_data(self, player_data):
@@ -97,6 +94,7 @@ class Player(Sprite):
             self.jump = player_data['jump']
             self.gravity = player_data['gravity']
             self.friction = player_data['friction']
+            self.skin_id = player_data['skin_id']
 
     def set_key_pressed(self, key_pressed):
         with self.lock:

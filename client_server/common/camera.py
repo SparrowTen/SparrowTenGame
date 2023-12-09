@@ -23,8 +23,8 @@ class Camera:
 
     def render(self, screen):
         player.render(screen, self.pos_offset)
-        for player_id in players.players:
-            other_player = players.players[player_id]
+        for id in players.players:
+            other_player = players.players[id]
             other_player: Player
             other_player.render(screen, self.pos_offset)
         map.render(screen, self.pos_offset)

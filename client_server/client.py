@@ -23,6 +23,9 @@ class SparrowTenGame:
         pygame.display.set_caption(f'player {self.player_name}')
         self.send_packet_to_server = True
 
+        # set player skin
+        player.update_player_skin(int(sys.argv[1]) - 1)
+
     def update_events(self):
         self.events = pygame.event.get()
         player.set_key_pressed(self.collect_key_pressed())
@@ -44,11 +47,6 @@ class SparrowTenGame:
     def lobby(self):
         # 大廳，等待其他玩家加入
         self.screen.fill((255, 255, 255))
-        # font = pygame.font.Font(None, 36)
-        # text = font.render('Lobby', True, (0, 0, 0))
-        # text_rect = text.get_rect()
-        # text_rect.center = (400, 300)
-        # self.screen.blit(text, text_rect)
         camera.check_player_in_camera()
         camera.render(self.screen)
 
@@ -97,8 +95,8 @@ class SparrowTenGame:
 
 
 if __name__ == '__main__':
-    game = SparrowTenGame()
-    game.game_init(sys.argv[1])
+    game = SparrowTenGame(sys.argv[1])
+    game.game_init()
     game.client.t_update_player_and_get_data.start()
     player.id = game.client.client.getsockname()[1]
     while True:

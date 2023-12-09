@@ -48,10 +48,10 @@ class ServerSocket:
                         player_data = dict(packet_deserializer(raw_data))
                         if player_data['id'] == 0:
                             player_data['id'] = player_id
-                        print('[server]: ' + str(player_id) + ' 傳送了 ' + str(player_data))
-                        players.update_player(player_id, player_data)
+                        players.server_update_player(player_id, player_data)
                         players.calculate_player_data()
                         players_data = players.pack_player_data()
+                        print(players_data)
                         self.send_to_client(s, players_data)
                 except Exception as e:
                     print(e)
