@@ -9,11 +9,20 @@
             "program": "${workspaceFolder}/src/main.py",
         },
         {
-            "name": "client",
+            "name": "player1",
             "type": "python",
             "python": "${workspaceFolder}/venv/Scripts/python.exe",
             "request": "launch",
             "program": "${workspaceFolder}/client_server/client.py",
+            "args": ["1"]
+        },
+        {
+            "name": "player2",
+            "type": "python",
+            "python": "${workspaceFolder}/venv/Scripts/python.exe",
+            "request": "launch",
+            "program": "${workspaceFolder}/client_server/client.py",
+            "args": ["2"]
         },
         {
             "name": "server",
@@ -25,8 +34,8 @@
     ],
     "compounds": [
         {
-            "name": "Test Client Server",
-            "configurations": ["client", "server"],
+            "name": "Test Players Server",
+            "configurations": ["server", "player1", "player2"],
             "stopAll": true
         }
     ]
