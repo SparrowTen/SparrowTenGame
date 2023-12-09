@@ -42,6 +42,18 @@
                 "clear": true
             },
             "problemMatcher": []
+        },
+        {
+            "label": "Python clean __pycache__",
+            "type": "shell",
+            "command": "${config:python.pythonPath}",
+            "args": [
+                ".vscode\\clean_pycache.py"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }
