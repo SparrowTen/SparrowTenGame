@@ -7,8 +7,36 @@
             "python": "${workspaceFolder}/venv/Scripts/python.exe",
             "request": "launch",
             "program": "${workspaceFolder}/src/main.py",
-            "console": "integratedTerminal",
-            "justMyCode": true
+        },
+        {
+            "name": "player1",
+            "type": "python",
+            "python": "${workspaceFolder}/venv/Scripts/python.exe",
+            "request": "launch",
+            "program": "${workspaceFolder}/client_server/client.py",
+            "args": ["1"]
+        },
+        {
+            "name": "player2",
+            "type": "python",
+            "python": "${workspaceFolder}/venv/Scripts/python.exe",
+            "request": "launch",
+            "program": "${workspaceFolder}/client_server/client.py",
+            "args": ["2"]
+        },
+        {
+            "name": "server",
+            "type": "python",
+            "python": "${workspaceFolder}/venv/Scripts/python.exe",
+            "request": "launch",
+            "program": "${workspaceFolder}/client_server/server.py",
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Test Players Server",
+            "configurations": ["server", "player1", "player2"],
+            "stopAll": true
         }
     ]
 }
