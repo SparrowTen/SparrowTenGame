@@ -25,6 +25,70 @@
             "args": ["2"]
         },
         {
+            "name": "player3",
+            "type": "python",
+            "python": "${workspaceFolder}/venv/Scripts/python.exe",
+            "request": "launch",
+            "program": "${workspaceFolder}/client_server/client.py",
+            "args": ["3"]
+        },
+        {
+            "name": "player4",
+            "type": "python",
+            "python": "${workspaceFolder}/venv/Scripts/python.exe",
+            "request": "launch",
+            "program": "${workspaceFolder}/client_server/client.py",
+            "args": ["4"]
+        },
+        {
+            "name": "player5",
+            "type": "python",
+            "python": "${workspaceFolder}/venv/Scripts/python.exe",
+            "request": "launch",
+            "program": "${workspaceFolder}/client_server/client.py",
+            "args": ["5"]
+        },
+        {
+            "name": "player6",
+            "type": "python",
+            "python": "${workspaceFolder}/venv/Scripts/python.exe",
+            "request": "launch",
+            "program": "${workspaceFolder}/client_server/client.py",
+            "args": ["6"]
+        },
+        {
+            "name": "player7",
+            "type": "python",
+            "python": "${workspaceFolder}/venv/Scripts/python.exe",
+            "request": "launch",
+            "program": "${workspaceFolder}/client_server/client.py",
+            "args": ["7"]
+        },
+        {
+            "name": "player8",
+            "type": "python",
+            "python": "${workspaceFolder}/venv/Scripts/python.exe",
+            "request": "launch",
+            "program": "${workspaceFolder}/client_server/client.py",
+            "args": ["8"]
+        },
+        {
+            "name": "player9",
+            "type": "python",
+            "python": "${workspaceFolder}/venv/Scripts/python.exe",
+            "request": "launch",
+            "program": "${workspaceFolder}/client_server/client.py",
+            "args": ["9"]
+        },
+        {
+            "name": "player10",
+            "type": "python",
+            "python": "${workspaceFolder}/venv/Scripts/python.exe",
+            "request": "launch",
+            "program": "${workspaceFolder}/client_server/client.py",
+            "args": ["10"]
+        },
+        {
             "name": "server",
             "type": "python",
             "python": "${workspaceFolder}/venv/Scripts/python.exe",
@@ -34,8 +98,13 @@
     ],
     "compounds": [
         {
-            "name": "Test Players Server",
+            "name": "Test 2 Players Server",
             "configurations": ["server", "player1", "player2"],
+            "stopAll": true
+        },
+        {
+            "name": "Test 10 Players Server",
+            "configurations": ["server", "player1", "player2", "player3", "player4", "player5", "player6", "player7", "player8", "player9", "player10"],
             "stopAll": true
         }
     ]
