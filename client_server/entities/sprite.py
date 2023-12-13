@@ -37,6 +37,6 @@ class Sprite(pygame.sprite.Sprite):
         rect_offset = self.rect.copy()
         rect_offset.center = self.rect.center - pos_offset
         self.r_pos = self.pos - pos_offset
-        # if SETTINGS.DEBUG:
-        #     pygame.draw.rect(screen, (255, 0, 0), rect_offset)
+        if SETTINGS.DEBUG:
+            pygame.draw.rect(screen, (255, 0, 0), rect_offset)
         screen.blit(self.asset, self.r_pos)

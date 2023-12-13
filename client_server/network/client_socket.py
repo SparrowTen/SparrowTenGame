@@ -1,6 +1,5 @@
 import socket
 import threading
-import time
 
 from common.players import players
 from entities.player import player

@@ -1,6 +1,5 @@
 import pygame
 from common.global_variable import GV
-from common.players import players
 from network.server_socket import ServerSocket
 from settings import SETTINGS
 
@@ -9,8 +8,6 @@ class SparrowTenServer:
     def __init__(self):
         self.server = ServerSocket()
         self.server.create_socket()
-        # self.t_listen = threading.Thread(target=self.server.listen)
-        # self.t_listen.start()
 
     def game_server_init(self):
         pygame.init()
@@ -30,4 +27,3 @@ if __name__ == '__main__':
     server.game_server_init()
     while True:
         server.run()
-        # server.debug_info()
