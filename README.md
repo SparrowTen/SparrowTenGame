@@ -3,6 +3,19 @@
 > 此文件由 HackMD 撰寫，若有排版錯誤，請移駕到此連結閱讀。
 > https://hackmd.io/@poyu39/SparrowTenGame
 
+```
+1. 簡介
+    本章中需要說明你專題的主要目標與功能，研究動機、以及人力分配與工作時程
+2. 文獻，本章中請介紹幾個與你專題相關的作品，這些作品的功能，與你專題成品的差異等
+3. 方法
+    a. 你須將整個系統切割成數個子模組，並介紹子模組的主要功能、模組之間的關係及界面
+    b. 說明 Client 及 Server 運作的流程
+    c. 以循序圖來說明 Client 與 Server 之間訊息傳遞的流程
+4. 成果，請介紹你們專題的成果
+5. 結論
+6. 參考文獻
+```
+
 ## 成員
 - 邱柏宇	D1009212	admin@poyu39.com
 - 吳念澤	D1049174	matt920404@gmail.com
@@ -14,8 +27,8 @@
 ### 主要目標
 利用 Python 中的 Pygame 和 RPC，實作以 Client / Server 為架構的多人闖關 遊戲，遊戲目標為玩家操控 sparrow 一起合作將 sparrow 們寶貴的蛋，送至目的地，途中會遭遇各種怪物和燒腦的機關，俗話說三個臭皮匠勝過諸葛亮，遇到複雜的機關，最多可以連線 10 隻 sparrow 合作。
 
-### 人力分配 
-工作時程：使用 Trello，把工作進度可視化，將專案分代定、需求列表、代辦事項、進行中、完成與有些項目需要後續確認的確認，每個卡片中都有日期能與執行者，能避免混亂及工作重複。
+### 人力分配
+使用 Trello，把工作進度可視化，將專案分代定、需求列表、代辦事項、進行中、完成與有些項目需要後續確認的確認，每個卡片中都有日期能與執行者，能避免混亂及工作重複。
 
 
 ## 文獻
@@ -76,8 +89,16 @@ vsp：即時垂直速度
 
 ### Client / Server 的運作
 
+### non-blocking循序圖
+![image](https://hackmd.io/_uploads/rysBZqXU6.png)
+
 #### 概略循序圖
-![sparrowten_game_seq](https://hackmd.io/_uploads/rJt_6LONT.png)
+![image](https://hackmd.io/_uploads/HJ2ob9XUT.png)
+
+
+
+
+
 
 #### Server
 整個遊戲世界都是由 Server 去處理，包括物理碰撞、互動物件、玩家事件等等，利用 multithread 持續更新每個玩家的資料，並且傳送給 Client 需要渲染的資料。
